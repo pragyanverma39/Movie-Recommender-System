@@ -58,10 +58,8 @@ The application loads the processed movie data and similarity matrix, identifies
 Movie-Recommender-System/
 │
 ├── .streamlit/
-│   └── secrets.toml          # Local API secrets (not committed)
-│
+│   └── secrets.toml       
 ├── app.py                    # Main Streamlit application
-├── main.py                   # Project script
 ├── movies.pkl                # Processed movie dataset
 ├── movies_dict.pkl           # Movie data used by the application
 ├── similarity.pkl            # Precomputed similarity matrix
