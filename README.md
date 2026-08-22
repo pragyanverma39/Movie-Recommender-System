@@ -1,402 +1,242 @@
-# \# 🎬 Movie Recommendation System
+# 🎬 Movie Recommendation System
+
+A **content-based movie recommendation system** built with **Python and Streamlit** that recommends movies similar to a user's selected movie. The system uses preprocessed movie metadata and cosine similarity to generate recommendations, while the **TMDB API** dynamically provides movie posters for a more visual experience.
+
+## 🚀 Features
+
+* 🎥 Select a movie from an interactive dropdown
+* 🤖 Content-based movie recommendations
+* 🔍 Get the **top 5 similar movies**
+* 🖼️ Fetch movie posters dynamically using the TMDB API
+* ⚡ Interactive Streamlit interface
+* 💾 Precomputed similarity matrix for fast recommendations
+* 🔐 Secure API key management using Streamlit secrets
+
+## 🧠 How It Works
+
+The system uses a **content-based filtering** approach.
+
+```text
+Movie Dataset
+     ↓
+Preprocessed Movie Tags
+     ↓
+CountVectorizer
+     ↓
+Feature Vectors
+     ↓
+Cosine Similarity
+     ↓
+Similarity Matrix
+     ↓
+User Selects Movie
+     ↓
+Find Similar Movies
+     ↓
+Top 5 Recommendations
+     ↓
+TMDB API → Movie Posters
+```
 
-# 
+The application loads the processed movie data and precomputed similarity matrix. When a user selects a movie, the system identifies its position in the dataset, ranks other movies according to their similarity scores, and returns the five most similar movies.
 
-# A content-based movie recommendation system built with \*\*Python and Streamlit\*\* that recommends movies similar to a user's selected movie. The system uses preprocessed movie metadata and similarity scores to generate recommendations, while the \*\*TMDB API\*\* provides movie posters for a more visual experience.
+## 🛠️ Tech Stack
 
-# 
+| Technology    | Purpose                                     |
+| ------------- | ------------------------------------------- |
+| Python        | Core programming language                   |
+| Streamlit     | Web application interface                   |
+| Pandas        | Movie data processing                       |
+| NumPy         | Numerical operations                        |
+| Scikit-learn  | Feature vectorization and cosine similarity |
+| Requests      | TMDB API requests                           |
+| Pickle        | Storing and loading processed data          |
+| TMDB API      | Movie poster information                    |
+| Git & Git LFS | Version control and large model storage     |
 
-# \## 🚀 Features
+## 📂 Project Structure
 
-# 
+```text
+Movie-Recommender-System/
+│
+├── .streamlit/
+│   └── secrets.toml          
+├── app.py                    # Main Streamlit application
+├── movies.pkl                # Processed movie dataset
+├── movies_dict.pkl           # Movie data used by the application
+├── similarity.pkl            # Precomputed similarity matrix
+├── requirements.txt          # Python dependencies
+├── .gitignore                # Ignored files and secrets
+└── .gitattributes            # Git LFS configuration
+```
 
-# \* 🎥 Select a movie from an interactive dropdown
+> **Note:** `.streamlit/secrets.toml` is a local configuration file and is intentionally excluded from GitHub to protect the TMDB API key.
 
-# \* 🤖 Content-based movie recommendations
+## ⚙️ Installation
 
-# \* 🔍 Finds the \*\*top 5 similar movies\*\*
+### 1. Clone the Repository
 
-# \* 🖼️ Fetches movie posters dynamically using the TMDB API
+```bash
+git clone https://github.com/pragyanverma39/Movie-Recommender-System.git
+cd Movie-Recommender-System
+```
 
-# \* ⚡ Interactive Streamlit interface
+### 2. Install Git LFS
 
-# \* 💾 Uses precomputed similarity data for fast recommendations
+The `similarity.pkl` model file is large and is managed using Git LFS.
 
-# \* 🔐 API key stored securely using Streamlit secrets
+Install Git LFS if it is not already installed, then run:
 
-# 
+```bash
+git lfs install
+git lfs pull
+```
 
-# \## 🧠 How It Works
+### 3. Create a Virtual Environment
 
-# 
+```bash
+python -m venv .venv
+```
 
-# The recommendation system follows a content-based filtering approach.
+### 4. Activate the Virtual Environment
 
-# 
+#### Windows PowerShell
 
-# ```text
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-# Movie Dataset
+#### Windows Command Prompt
 
-# &#x20;    ↓
+```cmd
+.venv\Scripts\activate
+```
 
-# Preprocessed Movie Tags
+### 5. Install Dependencies
 
-# &#x20;    ↓
+```bash
+pip install -r requirements.txt
+```
 
-# Feature Representation
+## 🔑 TMDB API Configuration
 
-# &#x20;    ↓
+The application uses the **TMDB API** to retrieve movie poster information.
 
-# Cosine Similarity
+Create a `.streamlit` directory in the project root:
 
-# &#x20;    ↓
+```text
+.streamlit/
+```
 
-# Similarity Matrix
+Inside the directory, create:
 
-# &#x20;    ↓
+```text
+secrets.toml
+```
 
-# User Selects Movie
+Add your own TMDB API key:
 
-# &#x20;    ↓
+```toml
+TMDB_API_KEY = "YOUR_TMDB_API_KEY"
+```
 
-# Find Similar Movies
+The application reads the API key using Streamlit secrets.
 
-# &#x20;    ↓
+**Never commit `secrets.toml` to GitHub.**
 
-# Top 5 Recommendations
+The file is already excluded through `.gitignore`.
 
-# &#x20;    ↓
+## ▶️ Run the Application
 
-# TMDB API → Movie Posters
+After activating the virtual environment and configuring your TMDB API key, run:
 
-# ```
+```bash
+streamlit run app.py
+```
 
-# 
+The application will be available at:
 
-# The application loads the processed movie data and similarity matrix, identifies the selected movie, ranks other movies according to their similarity scores, and returns the five highest-ranked recommendations.
+```text
+http://localhost:8501
+```
 
-# 
+## 🎯 Recommendation Method
 
-# \## 🛠️ Tech Stack
+The system uses **content-based filtering**.
 
-# 
+Each movie contains preprocessed textual tags representing information such as:
 
-# | Technology    | Purpose                                       |
+* Plot and description
+* Genres
+* Keywords
+* Cast
+* Other movie-related metadata
 
-# | ------------- | --------------------------------------------- |
+These tags are converted into numerical feature vectors using **CountVectorizer**. The system then calculates **cosine similarity** between movie vectors.
 
-# | Python        | Core programming language                     |
+When a user selects a movie:
 
-# | Streamlit     | Web application interface                     |
+1. The selected movie is located in the dataset.
+2. Its similarity scores are retrieved from the precomputed similarity matrix.
+3. Movies are ranked by similarity.
+4. The top 5 similar movies are selected.
+5. Their posters are retrieved using the TMDB API.
 
-# | Pandas        | Movie data processing                         |
+## 🖼️ Movie Posters
 
-# | NumPy         | Numerical operations                          |
+Movie posters are retrieved dynamically from the **TMDB API** using each movie's TMDB movie ID.
 
-# | Scikit-learn  | Feature processing and similarity calculation |
+If a poster is unavailable, the application displays a fallback placeholder image.
 
-# | Requests      | TMDB API requests                             |
+## 💾 Large Model File
 
-# | Pickle        | Storing and loading processed data            |
+The `similarity.pkl` file contains the precomputed movie similarity matrix and is approximately **185 MB** in the repository's Git LFS storage.
 
-# | TMDB API      | Movie poster information                      |
+Because the file exceeds GitHub's standard 100 MB Git file limit, it is managed using **Git Large File Storage (Git LFS)**.
 
-# | Git \& Git LFS | Version control and large model storage       |
+If you clone the repository, make sure Git LFS is installed and run:
 
-# 
+```bash
+git lfs install
+git lfs pull
+```
 
-# \## 📂 Project Structure
+## 🔮 Future Improvements
 
-# 
+Potential improvements include:
 
-# ```text
+* ⭐ Movie ratings and reviews
+* 🎭 Genre-based filtering
+* 🔎 Movie search functionality
+* 📊 Recommendation explanations
+* 👤 Personalized recommendations
+* 🎬 Movie details and trailers
+* 🌐 Online deployment
+* 📱 Improved responsive UI
+* 🧠 More advanced recommendation algorithms
+* 📈 Hybrid recommendation using content-based and collaborative filtering
 
-# Movie-Recommender-System/
+## 📌 Project Status
 
-# │
+**Status: Completed — Initial Working Version**
 
-# ├── .streamlit/
+The current version provides:
 
-# │   └── secrets.toml         
+* Interactive movie selection
+* Content-based movie recommendations
+* Top 5 similar movie results
+* Dynamically retrieved movie posters
+* TMDB API integration
+* Precomputed similarity matrix
+* Streamlit-based user interface
 
-# ├── app.py                    # Main Streamlit application
+## 👨‍💻 Author
 
-# ├── movies.pkl                # Processed movie dataset
+**Pragyan Verma**
 
-# ├── movies\_dict.pkl           # Movie data used by the application
+GitHub:
+https://github.com/pragyanverma39
 
-# ├── similarity.pkl            # Precomputed similarity matrix
+---
 
-# ├── requirements.txt          # Python dependencies
-
-# ├── .gitignore                # Ignored files and secrets
-
-# └── .gitattributes            # Git LFS configuration
-
-# ```
-
-# 
-
-# \## ⚙️ Installation
-
-# 
-
-# \### 1. Clone the repository
-
-# 
-
-# ```bash
-
-# git clone https://github.com/pragyanverma39/Movie-Recommender-System.git
-
-# cd Movie-Recommender-System
-
-# ```
-
-# 
-
-# \### 2. Create a virtual environment
-
-# 
-
-# ```bash
-
-# python -m venv .venv
-
-# ```
-
-# 
-
-# Activate it on Windows:
-
-# 
-
-# ```bash
-
-# .venv\\Scripts\\activate
-
-# ```
-
-# 
-
-# \### 3. Install dependencies
-
-# 
-
-# ```bash
-
-# pip install -r requirements.txt
-
-# ```
-
-# 
-
-# \## 🔑 TMDB API Configuration
-
-# 
-
-# The application uses the TMDB API to retrieve movie poster information.
-
-# 
-
-# Create the following directory:
-
-# 
-
-# ```text
-
-# .streamlit/
-
-# ```
-
-# 
-
-# Inside it, create:
-
-# 
-
-# ```text
-
-# secrets.toml
-
-# ```
-
-# 
-
-# Add your own TMDB API key:
-
-# 
-
-# ```toml
-
-# TMDB\_API\_KEY = "YOUR\_TMDB\_API\_KEY"
-
-# ```
-
-# 
-
-# \*\*Never commit `secrets.toml` to GitHub.\*\*
-
-# 
-
-# The file is already excluded through `.gitignore`.
-
-# 
-
-# \## ▶️ Run the Application
-
-# 
-
-# After activating your virtual environment and configuring your TMDB API key:
-
-# 
-
-# ```bash
-
-# streamlit run app.py
-
-# ```
-
-# 
-
-# The application will be available at:
-
-# 
-
-# ```text
-
-# http://localhost:8501
-
-# ```
-
-# 
-
-# \## 🎯 Recommendation Method
-
-# 
-
-# The system uses a \*\*content-based filtering\*\* approach.
-
-# 
-
-# Movie information is represented through preprocessed tags containing information such as:
-
-# 
-
-# \* Plot/description
-
-# \* Genres
-
-# \* Keywords
-
-# \* Cast
-
-# \* Other movie-related metadata
-
-# 
-
-# The processed tags are transformed into numerical feature vectors, and \*\*cosine similarity\*\* is used to measure the similarity between movies.
-
-# 
-
-# For a selected movie, the system ranks similarity scores and returns the five most similar movies.
-
-# 
-
-# \## 🖼️ Movie Posters
-
-# 
-
-# Movie posters are retrieved dynamically from the \*\*TMDB API\*\* using each movie's TMDB movie ID.
-
-# 
-
-# If a poster is unavailable, the application displays a fallback placeholder.
-
-# 
-
-# \## 💾 Large Model File
-
-# 
-
-# The `similarity.pkl` file is a large precomputed similarity matrix and is therefore managed using \*\*Git LFS\*\*.
-
-# 
-
-# If you clone the repository and Git LFS is not installed, install it before working with the model file.
-
-# 
-
-# ```bash
-
-# git lfs install
-
-# git lfs pull
-
-# ```
-
-# 
-
-# \## 🔮 Future Improvements
-
-# 
-
-# Potential improvements include:
-
-# 
-
-# \* ⭐ Movie ratings and reviews
-
-# \* 🎭 Genre-based filtering
-
-# \* 🔎 Search functionality
-
-# \* 📊 Recommendation explanations
-
-# \* 👤 Personalized recommendations
-
-# \* 🎬 Movie details and trailers
-
-# \* 🌐 Online deployment
-
-# \* 📱 Improved responsive UI
-
-# \* 🧠 More advanced recommendation algorithms
-
-# \* 📈 Hybrid recommendation combining content-based and collaborative filtering
-
-# 
-
-# \## 📌 Project Status
-
-# 
-
-# \*\*Status:\*\* Completed — initial working version
-
-# 
-
-# The current version provides movie selection, content-based recommendations, and dynamically retrieved movie posters through TMDB.
-
-# 
-
-# \## 👨‍💻 Author
-
-# 
-
-# \*\*Pragyan Verma\*\*
-
-# 
-
-# GitHub:
-
-# https://github.com/pragyanverma39
-
-# 
-
-# \---
-
-# 
-
-# ⭐ If you find this project useful, consider giving the repository a star!
-
+⭐ If you find this project useful, consider giving the repository a star!
