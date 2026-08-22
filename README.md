@@ -234,6 +234,9 @@ The current version provides:
 
 **Pragyan Verma**
 
+Movie Recommender System:
+https://movie-recommender-system39.streamlit.app/
+
 GitHub:
 https://github.com/pragyanverma39
 
