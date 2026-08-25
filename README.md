@@ -2,6 +2,16 @@
 
 A **content-based movie recommendation system** built with **Python and Streamlit** that recommends movies similar to a user's selected movie. The system uses preprocessed movie metadata and cosine similarity to generate recommendations, while the **TMDB API** dynamically provides movie posters for a more visual experience.
 
+## 🚀 Demo
+
+<p align="center">
+  <img
+    src="./assets/movie-recommender-demo.png"
+    alt="Movie Recommendation System Demo"
+    width="900"
+  />
+</p>
+
 ## 🚀 Features
 
 * 🎥 Select a movie from an interactive dropdown
